@@ -1,0 +1,21 @@
+-- 1. Database
+CREATE DATABASE CitiBikeDB;
+USE CitiBikeDB;
+
+-- 2. Table create karein (Dataframe columns ke hisaab se)
+CREATE TABLE trips (
+    ride_id VARCHAR(100) PRIMARY KEY,
+    rideable_type VARCHAR(50),
+    started_at DATETIME,
+    ended_at DATETIME,
+    start_station_name VARCHAR(255),
+    start_station_id VARCHAR(100),
+    end_station_name VARCHAR(255),
+    end_station_id VARCHAR(100),
+    start_lat DECIMAL(10, 8),
+    start_lng DECIMAL(11, 8),
+    end_lat DECIMAL(10, 8),
+    end_lng DECIMAL(11, 8),
+    member_casual VARCHAR(20)
+);
+
