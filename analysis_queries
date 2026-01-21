@@ -1,0 +1,45 @@
+-- 1. WHERE Clause with Special Operators
+-- Aise rides dhundna ha jo 'Grand St' ya 'Grove St' se start hui hain (LIKE and OR)
+
+SELECT * FROM citibike_trips 
+WHERE start_station_name LIKE '%Grand St%' 
+   OR start_station_name LIKE '%Grove St%';
+
+-- BETWEEN ka use karke peak hours ka data nikalna (e.g., morning 8 to 10 AM)
+
+SELECT ride_id, started_at, member_casual
+FROM citibike_trips
+WHERE CAST(started_at AS TIME) BETWEEN '08:00:00' AND '10:00:00';
+
+-- IN operator ka use karke specific categories filter karna
+SELECT COUNT(*) AS Total_Electric_Rides
+FROM citibike_trips
+WHERE rideable_type IN ('electric_bike', 'docked_bike');
+
+
+-- 2. GROUP BY and ORDER BY
+-- Har station par kitni rides hui, descending order mein
+SELECT start_station_name, COUNT(ride_id) AS total_rides
+FROM citibike_trips
+GROUP BY start_station_name
+ORDER BY total_rides DESC;
+
+
+-- 3. HAVING Clause (Advanced Filtering)
+-- Sirf wo stations dikhao jahan 50 se zyada rides hui hain
+SELECT start_station_name, COUNT(ride_id) AS ride_count
+FROM citibike_trips
+GROUP BY start_station_name
+HAVING COUNT(ride_id) > 50
+ORDER BY ride_count DESC;
+
+
+-- 4. Calculated Columns (Duration Calculation)
+-- Ride ki duration (minutes mein) nikalna aur sorting karna
+SELECT TOP 10 
+    ride_id, 
+    start_station_name, 
+    DATEDIFF(MINUTE, started_at, ended_at) AS duration_minutes
+FROM citibike_trips
+WHERE DATEDIFF(MINUTE, started_at, ended_at) > 0
+ORDER BY duration_minutes DESC;
